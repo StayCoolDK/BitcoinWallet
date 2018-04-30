@@ -23,8 +23,8 @@ class UserController extends Controller
     public function getBitcoinData()
     {
 
-        //Uncomment and replace username:password to match your bitcoin config file
-        $bitcoind = new BitcoinClient('http://StayCool:bandit1993@localhost:8332/');
+        //Replace username:password to match your bitcoin config file
+        $bitcoind = new BitcoinClient('http://username:password@localhost:8332/');
 
         $networkinfo = $bitcoind->getnetworkinfo();
         $blockchaininfo = $bitcoind->getblockchaininfo();
@@ -44,13 +44,11 @@ class UserController extends Controller
      */
     public function userWallet()
     {
-        //Uncomment and replace username:password to match your bitcoin config file
-        $bitcoind = new BitcoinClient('http://StayCool:bandit1993@localhost:8332/');
+        //Replace username:password to match your bitcoin config file
+        $bitcoind = new BitcoinClient('http://username:password@localhost:8332/');
 
         $user = $this->container->get('security.token_storage')->getToken()->getUser();
         $username = $user->getEmail();
-        //or use the userID, and enable email being allowed to be changed (profile)
-
 
         //accounts can continue to be used in v0.17 by starting bitcoind with '-decprecatedrpc=accounts'
         //will be fully removed/deprecated in v0.18
@@ -76,8 +74,8 @@ class UserController extends Controller
      */
     public function newAddress()
     {
-        //Uncomment and replace username:password to match your bitcoin config file
-        $bitcoind = new BitcoinClient('http://StayCool:bandit1993@localhost:8332/');
+        //Replace username:password to match your bitcoin config file
+        $bitcoind = new BitcoinClient('http://username:password@localhost:8332/');
 
         $user = $this->container->get('security.token_storage')->getToken()->getUser();
         $username = $user->getEmail();
