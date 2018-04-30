@@ -1,0 +1,30 @@
+    <footer class="page-footer">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 s12">
+                <h5 class="white-text">Quick Links</h5>
+                <p class="grey-text text-lighten-4">Registration</p>
+                <p class="grey-text text-lighten-4">FAQ</p>
+                <p class="grey-text text-lighten-4">Github</p>
+                <p class="grey-text text-lighten-4">Privacy Policy</p>
+                <p class="grey-text text-lighten-4">Terms & Conditions</p>
+              </div>
+              <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Stats</h5>
+                <ul>
+                    <li><p class="grey-text text-lighten-4">{{info['subversion']}}</p></li>
+                    <li><p class="grey-text text-lighten-4">Node Connections: {{info['connections']}}</p></li>
+                    <li><p class="grey-text text-lighten-4">Blocks: {{blockchaininfo['blocks']}}</p></li>
+                    <li><p class="grey-text text-lighten-4">Difficulty: {{blockchaininfo['difficulty']|number_format(0, '.', ',')}}</p></li>
+                    <li><p class="grey-text text-lighten-4">Blockchain Sync: <span>{{(blockchaininfo['verificationprogress']*100)|number_format(6, '.', ',')}}%</span></p></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="footer-copyright">
+            <div class="container">
+            © 2018 Peter Dalby
+            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            </div>
+          </div>
+        </footer>

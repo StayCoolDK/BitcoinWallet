@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="description" content="Bitcoin Wallet">
+        <meta name="theme-color">
+        <title>{% block title %}Bitcoin Wallet{% endblock %}</title>
+        <link rel="shortcut icon" href="{{ asset('build/images/favicon.png')}}" async>
+
+        {% block stylesheets %}
+          <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" async>
+
+          <link href="{{ asset('build/css/app.css') }}" rel="stylesheet" async/>
+        {% endblock %}
+    </head>
+    <body>
+
+        <ul id="dropdown1" class="dropdown-content">
+        <li><a href="{{ path('user_wallet') }}"><i class="material-icons">account_balance_wallet</i>My Wallet</a></li>
+        <li><a href="{{ path('fos_user_profile_show') }}"><i class="material-icons">build</i>Profile Settings</a></li>
+        </ul>
+
+
+        <ul id="dropdown2" class="dropdown-content">
+
+        <li><a href="{{ path('user_wallet') }}"><i class="material-icons">account_balance_wallet</i>My Wallet</a></li>
+        <li><a href="{{ path('fos_user_profile_show') }}"><i class="material-icons">build</i>Profile Settings</a></li>
+        </ul>
+
+
+
+        <ul class="sidenav" id="slide-out">
+                                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                        <li><a class="waves-effect waves-light btn blue darken-3 btn" href="/logout"><i class="material-icons left">flash_off</i>Logout</a></li>
+                                        <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">{{ app.user.email }}
+                                        <i class="material-icons right">arrow_drop_down</i>
+                                        <i class="material-icons left">account_box</i></a>
+                                        </li>
+                                    {% else %}
+                                        <li><a class="waves-effect waves-light blue darken-3 btn" href="{{path('fos_user_security_login')}}"><i class="material-icons left">security</i>Login</a></li>
+                                    {% endif %}
+        </ul>
+
+        <nav>
+            <div class="nav-wrapper">
+
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                    <a href="{{path('user_wallet')}}" class="brand-logo"><img src="{{ asset('build/images/favicon.png')}}" class="logoImg"> Bitcoin Wallet</a>
+                {% else %}
+                
+                    <a href="{{path('fos_user_registration_register')}}" class="brand-logo"><img src="{{ asset('build/images/favicon.png')}}" class="logoImg"> Bitcoin Wallet </a>
+                    
+                {% endif %}
+
+                <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li><a class="dropdown-trigger" href="#!" belowOrigin="true" data-target="dropdown2">{{ app.user.email }}
+                        <i class="material-icons right">arrow_drop_down</i>
+                        <i class="material-icons left">account_box</i></a>
+                    </li>
+                    <li><a class="waves-effect waves-light blue darken-3  btn" href="/logout"><i class="material-icons left">flash_off</i>Logout</a></li>
+                {% else %}
+                    <li><a class="waves-effect waves-light blue darken-3  btn" href="{{path('fos_user_security_login')}}"><i class="material-icons left">security</i>Login</a></li>
+                {% endif %}
+
+                </ul>
+                    
+            </div>
+        </nav>
+        
+        <div class="page-content">
+            <div class="container">
+                {% block body %}
+
+                {% endblock %}
+            </div>
+        </div>
+
+        <div class="footerContainer">
+    {{ render(controller(
+        'App\\Controller\\UserController::getBitcoinData'
+    )) }}
+        </div>
+
+        {% block javascripts %}
+          <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous" async></script>
+          <script type="text/javascript" src="{{ asset('build/js/app.js') }}" async></script>
+        {% endblock %}
+    </body>
+</html>

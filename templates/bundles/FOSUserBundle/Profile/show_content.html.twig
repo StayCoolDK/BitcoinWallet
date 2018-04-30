@@ -1,0 +1,17 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<h1>Profile</h1>
+<div class="fos_user_user_show">
+    <form action="{{path('fos_user_change_password')}}" method="POST">
+              <button class="btn waves-effect waves-light" type="submit" name="action">{{ 'change_password.submit'|trans }}
+            <i class="material-icons left">lock_open</i>
+      </button>
+    </form>
+    <br>
+    <form action="{{path('fos_user_security_logout')}}" method="POST">
+    <button class="btn waves-effect waves-light red darken-2" disabled type="submit" name="action" onclick="return confirm('Are you sure that you want to deactivate your account?')">Deactivate Account
+            <i class="material-icons left">power_settings_new</i>
+      </button>
+    </form>
+    <br><br>
+</div>

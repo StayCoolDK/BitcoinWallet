@@ -1,0 +1,27 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<br>
+  <nav>
+    <div class="nav-wrapper">
+      <div class="col s12" style="padding-left: 10px">
+        <a href="{{path('fos_user_profile_show')}}" class="breadcrumb">Profile</a>
+        <a href="{{path('fos_user_profile_edit')}}" class="breadcrumb">Edit</a>
+      </div>
+    </div>
+  </nav>
+<br>
+
+{{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
+    {{ form_widget(form) }}
+
+            <div class="row">
+            <div class="input-field col s12">
+                <button class="btn waves-effect waves-light" type="submit" id="_submit" name="_submit" value="{{ 'profile.edit.submit'|trans }}">Update
+                    <i class="material-icons right">send</i>
+                </button> 
+            </div>
+            </div>
+    
+{{ form_end(form) }}
+
+

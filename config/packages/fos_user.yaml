@@ -1,0 +1,23 @@
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: App\Entity\User
+    service:                               
+        mailer: fos_user.mailer.twig_swift
+    from_email:
+        address: hello@peterdalby.me
+        sender_name: Bitcoin Wallet
+    registration:
+        confirmation:
+            enabled: true
+            template:   '@FOSUser/Registration/email.txt.twig'
+            from_email:
+                address:        registration@bitcoinwallet.com
+                sender_name:    Bitcoin Wallet Registration
+    resetting:
+        email:
+            template:   '@FOSUser/Resetting/email.txt.twig'
+            from_email:
+                address:        resetting@bitcoinwallet.com
+                sender_name:    Bitcoin Wallet Resetting
+    

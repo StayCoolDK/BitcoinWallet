@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="description" content="Bitcoin Wallet">
+        <meta name="theme-color">
+        <title>{% block title %}Bitcoin Wallet{% endblock %}</title>
+        <link rel="shortcut icon" href="{{ asset('build/images/favicon.png')}}" async>
+
+        {% block stylesheets %}
+          <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" async>
+    
+          <link href="{{ asset('build/css/app.css') }}" rel="stylesheet" async/>
+        {% endblock %}
+
+    </head>
+    <body>
+        <nav class="nav-extended">
+            <div class="nav-wrapper">
+
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                        <a href="{{path('user_wallet')}}" class="brand-logo"><img src="{{ asset('build/images/favicon.png')}}" class="logoImg"> Bitcoin Wallet</a>
+                    {% else %}
+                        <a href="{{path('fos_user_registration_register')}}" class="brand-logo"><img src="{{ asset('build/images/favicon.png')}}" class="logoImg"> Bitcoin Wallet</a>
+                    {% endif %}
+
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                        <li>
+                            <a class="dropdown-trigger" href="#!" data-covertrigger="false" data-beloworigin="false" data-target="dropdown2">{{ app.user.email }}
+                            <i class="material-icons right">arrow_drop_down</i>
+                            <i class="material-icons left">account_box</i></a>
+                        </li>
+                        <li><a class="waves-effect waves-light btn blue darken-3 btn" href="/logout"><i class="material-icons left">flash_off</i>Logout</a></li>
+                    {% else %}
+                            <li><a class="waves-effect waves-light btn blue darken-3 btn" href="{{path('user_login')}}"><i class="material-icons left">security</i>Login</a></li>
+                    {% endif %}
+            </ul>
+            </div>
+
+            <div class="nav-content">
+            <ul class="tabs tabs-transparent">
+                <li class="tab"><a class="active" href="#test1">My Wallet</a></li>
+                <li class="tab"><a href="#test2">Send Bitcoin</a></li>
+                <li class="tab"><a href="#test3">Settings</a></li>
+            </ul>
+            </div>
+        </nav>
+
+        <ul class="sidenav" id="mobile-demo">
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                        <li><a class="waves-effect waves-light btn blue darken-3 btn" href="/logout"><i class="material-icons left">flash_off</i>Logout</a></li>
+                        <li>
+                            <a class="dropdown-trigger" href="#!" data-covertrigger="false" data-beloworigin="false" data-target="dropdown1">{{ app.user.email }}
+                            <i class="material-icons right">arrow_drop_down</i>
+                            <i class="material-icons left">account_box</i></a>
+                        </li>
+                    {% else %}
+                            <li><a class="waves-effect waves-light btn blue darken-3 btn" href="{{path('user_login')}}"><i class="material-icons left">security</i>Login</a></li>
+                    {% endif %}
+        </ul>
+
+
+        <div id="test2" class="col s12">
+            <div class="container">
+                <br>
+                    <i>Coming soon...</i>
+                <br><br>
+            </div>
+        </div>
+
+        <div id="test3" class="col s12">
+            <div class="container">
+            <br><br>
+                <form action="{{path('user_wallet_new_address')}}">
+                    <button class="btn waves-effect waves-light left" type="submit" name="action" onclick="M.toast({html: 'Creating address...', displayLength: 10000, classes: 'rounded'})">Generate new address
+                        <i class="material-icons right"></i>
+                    </button>
+                </form>
+            <br><br>
+            </div>
+        </div>
+
+        <ul id="dropdown1" class="dropdown-content">
+        <li><a href="{{ path('user_wallet') }}"><i class="material-icons">account_balance_wallet</i>My Wallet</a></li>
+        <li><a href="{{ path('fos_user_profile_show') }}"><i class="material-icons">build</i>Profile Settings</a></li>
+        </ul>
+
+
+        <ul id="dropdown2" class="dropdown-content">
+        <li><a href="{{ path('user_wallet') }}"><i class="material-icons">account_balance_wallet</i>My Wallet</a></li>
+        <li><a href="{{ path('fos_user_profile_show') }}"><i class="material-icons">build</i>Profile Settings</a></li>
+        </ul>
+                
+        <div class="page-content">
+            <div class="container">
+                <div id="test1" class="col s12">
+                    {% block body %}
+
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+
+        <div class="footerContainer">
+            {{ render(controller(
+                'App\\Controller\\UserController::getBitcoinData'
+            )) }}
+        </div>
+
+        {% block javascripts %}
+          <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous" async></script>
+          <script type="text/javascript" src="{{ asset('build/js/app.js') }}" async></script>
+        {% endblock %}
+    </body>
+</html>

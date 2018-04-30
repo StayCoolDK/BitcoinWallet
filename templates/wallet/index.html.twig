@@ -1,0 +1,46 @@
+{% extends 'walletbase.html.twig' %}
+
+{% block body %}
+
+<div class="row">
+  <div class="col s12 m12 l8 xl6">
+  <h1>Addresses</h1>
+  <p>Receive Bitcoin payments by sharing your addresses.</p>
+  <div style="overflow-y: scroll; max-height: 530px; margin: 0">
+  {% for addresses in addresses.result %}
+
+    <ul class="collection">
+      <li class="collection-item">
+        <button class="btn right" style="margin-right: 10px; margin-top: 10px">Copy</button>
+        <div class="input-field col s12">
+          <i class="material-icons prefix">account_balance_wallet</i>
+          <input id="copyInput" type="text" readonly spellcheck="false" value="{{ addresses }}">
+          <label for="copyInput">Bitcoin Address</label>
+
+          <a class="secondary-content">
+            <p class="left">{{ balance.result|number_format(2, '.', ',') }} BTC / 0.00 USD</p>
+          </a>
+                   
+        </div>
+      </li>
+    </ul>
+
+  {% else %}
+    <p>No addresses found, start by creating one!</p>
+        <form action="{{path('user_wallet_new_address')}}">
+            <button class="btn waves-effect waves-light left" type="submit" name="action" onclick="M.toast({html: 'Creating address...', displayLength: 10000, classes: 'rounded'})">Generate new address
+                <i class="material-icons right"></i>
+            </button>
+        </form>
+  {% endfor %}
+</div>
+  </div>
+    <div class="col s12 m12 l4 xl6">
+    <h1>Transactions</h1>
+      ...Nothing here, <i>yet!</i>
+    </div>
+
+
+</div>
+  <br><br>
+{% endblock %}
