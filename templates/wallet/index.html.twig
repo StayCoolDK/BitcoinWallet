@@ -2,25 +2,80 @@
 
 {% block body %}
 
-<div class="row">
-  <div class="col s12 m12 l8 xl6">
-  <h1>Addresses</h1>
-  <p>Receive Bitcoin payments by sharing your addresses.</p>
-  <div style="overflow-y: scroll; max-height: 530px; margin: 0">
-  {% for addresses in addresses.result %}
+    <div class="col s12">
+          <div class="row">
+          <h4 class="right" style="margin-right: 10px">Balance: {{balance|number_format(8, '.', ',')}}฿ / 0.00$</h4><br><br><br><br>
+          <p class="right" style="margin: 0; margin-right: 10px">Unconfirmed Balance: {{unbalance|number_format(8, '.', ',')}}฿</p>
+  <div id="admin" class="col s12">
+    <div class="card material-table">
+      <div class="table-header">
+        <span class="table-title">Transactions</span>
+        <div class="actions">
+          <a href="#" class="search-toggle waves-effect btn"><i class="material-icons">search</i></a>
+        </div>
+      </div>
+      <table class="responsive-table" id="datatable" >
+        <thead>
+          <tr>
+              <th style="font-size: 14px"><i class="material-icons prefix tiny">access_time</i> <b>Timestamp</b></th>
+              <th style="font-size: 14px"><i class="material-icons prefix tiny">account_balance_wallet</i> <b>Address</b></th>
+              <th style="font-size: 14px"><i class="fa fa-btc prefix"></i> <b>Amount</b></th>
+              <th style="font-size: 14px"><i class="material-icons prefix tiny">vpn_lock</i> <b>TX ID</b></th>
+              <th style="font-size: 14px"><i class="material-icons prefix tiny">security</i> <b>Confirmations</b></th>
+              <th style="font-size: 14px"><i class="material-icons prefix tiny">swap_horiz</i> <b>Type</b></th>
+          </tr>
+        </thead>
+                  <tbody>
+          {% for transaction in transactions %}
+            {% if transaction.category == "receive" %}
+                    <tr>
+                <td>{{transaction.time|date('d/m/Y H:i')}}</td>
+                <td>{{transaction.address}}</td>
+                <td style="color: #00c853">{{transaction.amount|number_format(8, '.', ',')}}฿</td>
+                <td style="text-decoration: underline"><a href="https://blockchain.info/tx/{{transaction.txid}}" target="_blank" rel="noopener">{{transaction.txid}}</a></td>
+                <td>{{transaction.confirmations}}</td>
+                <td><i class="material-icons">arrow_back</i></td>
+                        </tr>
+            {% elseif transaction.category == "send" %}
+                    <tr>
+                <td>{{transaction.time|date('d/m/Y H:i')}}</td>
+                <td>{{transaction.address}}</td>
+                <td style="color: red">{{transaction.amount|number_format(8, '.', ',')}}฿</td>
+                <td style="text-decoration: underline"><a href="https://blockchain.info/tx/{{transaction.txid}}" target="_blank" rel="noopener">{{transaction.txid}}</a></td>
+                <td>{{transaction.confirmations}}</td>
+                <td><i class="material-icons">arrow_forward</i></td>
+                        </tr>
+            {% elseif transaction.category == "move" %}
+                    <tr>
+                <td>{{transaction.time|date('d/m/Y H:i')}}</td>
+                <td>{{transaction.otheraccount}}</td>
+                <td style="color: lightgrey">{{transaction.amount|number_format(8, '.', ',')}}฿</td>
+                <td>none</td>
+                <td>none</td>
+                <td><i class="material-icons">transform</i></td>
+                        </tr>
+                {% endif %}
+        {% endfor %}
+                </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
+  <div class="col s12">
+            <div class="row">
+  <h4>Addresses</h4>
+  <p>Receive Bitcoin payments by sharing your Bitcoin addresses.</p>
+  <div class="listAddresses">
+  
+  {% for address in addresses %}
     <ul class="collection">
       <li class="collection-item">
         <button class="btn right" style="margin-right: 10px; margin-top: 10px">Copy</button>
         <div class="input-field col s12">
           <i class="material-icons prefix">account_balance_wallet</i>
-          <input id="copyInput" type="text" readonly spellcheck="false" value="{{ addresses }}">
-          <label for="copyInput">Bitcoin Address</label>
-
-          <a class="secondary-content">
-            <p class="left">{{ balance.result|number_format(2, '.', ',') }} BTC / 0.00 USD</p>
-          </a>
-                   
+          <input id="copyInput" type="text" readonly spellcheck="false" value="{{address}}">
+          <label for="copyInput">Bitcoin Address</label>                   
         </div>
       </li>
     </ul>
@@ -34,12 +89,7 @@
         </form>
   {% endfor %}
 </div>
-  </div>
-    <div class="col s12 m12 l4 xl6">
-    <h1>Transactions</h1>
-      ...Nothing here, <i>yet!</i>
-    </div>
-
+</div>
 
 </div>
   <br><br>

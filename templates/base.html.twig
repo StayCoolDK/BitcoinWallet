@@ -32,7 +32,7 @@
 
         <ul class="sidenav" id="slide-out">
                                     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                                        <li><a class="waves-effect waves-light btn blue darken-3 btn" href="/logout"><i class="material-icons left">flash_off</i>Logout</a></li>
+                                        <li><a class="waves-effect waves-light btn blue darken-3 btn" href="/logout"><i class="material-icons left">exit_to_app</i>Logout</a></li>
                                         <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">{{ app.user.email }}
                                         <i class="material-icons right">arrow_drop_down</i>
                                         <i class="material-icons left">account_box</i></a>
@@ -61,7 +61,7 @@
                         <i class="material-icons right">arrow_drop_down</i>
                         <i class="material-icons left">account_box</i></a>
                     </li>
-                    <li><a class="waves-effect waves-light blue darken-3  btn" href="/logout"><i class="material-icons left">flash_off</i>Logout</a></li>
+                    <li><a class="waves-effect waves-light blue darken-3  btn" href="/logout"><i class="material-icons left">exit_to_app</i>Logout</a></li>
                 {% else %}
                     <li><a class="waves-effect waves-light blue darken-3  btn" href="{{path('fos_user_security_login')}}"><i class="material-icons left">security</i>Login</a></li>
                 {% endif %}

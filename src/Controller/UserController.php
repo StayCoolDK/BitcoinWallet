@@ -22,21 +22,31 @@ class UserController extends Controller
 
     public function getBitcoinData()
     {
-
         //Replace username:password to match your bitcoin config file
         $bitcoind = new BitcoinClient('http://username:password@localhost:8332/');
 
-        $networkinfo = $bitcoind->getnetworkinfo();
-        $blockchaininfo = $bitcoind->getblockchaininfo();
-        $nodemempool = $bitcoind->getMemPoolInfo();
+        $aNetworkInfo = $bitcoind->getnetworkinfo();
+        $aBlockchainInfo = $bitcoind->getblockchaininfo();
+        $aMemPoolInfo = $bitcoind->getMemPoolInfo();
+        $aTransactions = $bitcoind->ListTransactions('*', 50)->get();
+        $aWalletInfo = $bitcoind->getwalletinfo()->get();
            
         return $this->render(
             'footer.html.twig',
                 [
-                    'info' => $networkinfo,
-                    'blockchaininfo' => $blockchaininfo,
+                    'info' => $aNetworkInfo,
+                    'blockchaininfo' => $aBlockchainInfo,
+                    'transactions' => $aTransactions,
+                    'walletinfo' => $aWalletInfo,
                 ]
         );
+    }
+
+    /**
+     * @Route("/wallet/send/{toaddress}/{amount}", name="user_sendtransaction")
+     */
+    public function sendTransation($toaddress, $amount){
+
     }
 
     /**
@@ -46,26 +56,26 @@ class UserController extends Controller
     {
         //Replace username:password to match your bitcoin config file
         $bitcoind = new BitcoinClient('http://username:password@localhost:8332/');
+        $sAccount = $this->container->get('security.token_storage')->getToken()->getUser()->getEmail();
 
-        $user = $this->container->get('security.token_storage')->getToken()->getUser();
-        $username = $user->getEmail();
+        $aAddresses = $bitcoind->GetAddressesByAccount($sAccount)->get();
+        //Total unconfirmed account balance
+        $sUnconfirmedBalance = $bitcoind->GetBalance($sAccount, 0)->get();
+        //Total confirmed account balance
+        $sConfirmedBalance = $bitcoind->GetBalance($sAccount, 1)->get();
+        $aTransactions = $bitcoind->ListTransactions($sAccount)->get();
 
-        //accounts can continue to be used in v0.17 by starting bitcoind with '-decprecatedrpc=accounts'
-        //will be fully removed/deprecated in v0.18
-        $addresses = $bitcoind->GetAddressesByAccount($username);
-
-        //Total account balance
-        $balance = $bitcoind->GetReceivedByAccount($username, 0);
-
-        //List of transactions
-        // $transactions = $bitcoind->ListTransactions($username, 10);
+        //Estimate fee for transaction being included within the next 6 blocks ~ 60 minutes
+        $sFeeEstimate = $bitcoind->EstimateSmartFee(6)->get();
 
         return $this->render(
             'wallet/index.html.twig', 
                 [
-                    'addresses' => $addresses,
-                    'balance' => $balance,
-                  //  'transactions' => $transactions,
+                    'addresses' => $aAddresses,
+                    'unbalance' => $sUnconfirmedBalance,
+                    'balance' => $sConfirmedBalance,
+                    'transactions' => $aTransactions,
+                    'estimate' => $sFeeEstimate,
                 ]);
     }
 
@@ -77,11 +87,12 @@ class UserController extends Controller
         //Replace username:password to match your bitcoin config file
         $bitcoind = new BitcoinClient('http://username:password@localhost:8332/');
 
-        $user = $this->container->get('security.token_storage')->getToken()->getUser();
-        $username = $user->getEmail();
+        $sAccount = $this->container->get('security.token_storage')->getToken()->getUser()->getEmail();
 
-        $address = $bitcoind->GetNewAddress($username, "bech32"); //bech32 addresses are native to the Segregated Witness softfork supporting cheaper transaction fees.
-
+        $sAddress = $bitcoind->GetNewAddress($sAccount, "bech32");
+        //$address = $bitcoind->GetNewAddress($username, "p2sh-segwit");
+        //$address = $bitcoind->GetNewAddress($username, "legacy");
+        
         return $this->redirectToRoute('user_wallet');
     }
 }
