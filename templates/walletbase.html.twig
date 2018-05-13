@@ -10,7 +10,6 @@
 
         {% block stylesheets %}
           <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" async>
-    
           <link href="{{ asset('build/css/app.css') }}" rel="stylesheet" async/>
         {% endblock %}
 
@@ -33,25 +32,24 @@
                             <i class="material-icons right">arrow_drop_down</i>
                             <i class="material-icons left">account_box</i></a>
                         </li>
-                        <li><a class="waves-effect waves-light btn blue darken-3 btn" href="/logout"><i class="material-icons left">flash_off</i>Logout</a></li>
+                        <li><a class="waves-effect waves-light btn blue darken-3 btn" href="/logout"><i class="material-icons left">exit_to_app</i>Logout</a></li>
                     {% else %}
                             <li><a class="waves-effect waves-light btn blue darken-3 btn" href="{{path('user_login')}}"><i class="material-icons left">security</i>Login</a></li>
                     {% endif %}
             </ul>
             </div>
-
             <div class="nav-content">
-            <ul class="tabs tabs-transparent">
-                <li class="tab"><a class="active" href="#test1">My Wallet</a></li>
-                <li class="tab"><a href="#test2">Send Bitcoin</a></li>
-                <li class="tab"><a href="#test3">Settings</a></li>
-            </ul>
+                <ul class="tabs tabs-transparent">
+                    <li class="tab"><a class="active" href="#wallet">My Wallet</a></li>
+                    <li class="tab"><a href="#sendbitcoin">Send Bitcoin</a></li>
+                    <li class="tab"><a href="#settings">Settings</a></li>
+                </ul>
             </div>
         </nav>
 
         <ul class="sidenav" id="mobile-demo">
                     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                        <li><a class="waves-effect waves-light btn blue darken-3 btn" href="/logout"><i class="material-icons left">flash_off</i>Logout</a></li>
+                        <li><a class="waves-effect waves-light btn blue darken-3 btn" href="/logout"><i class="material-icons left">exit_to_app</i>Logout</a></li>
                         <li>
                             <a class="dropdown-trigger" href="#!" data-covertrigger="false" data-beloworigin="false" data-target="dropdown1">{{ app.user.email }}
                             <i class="material-icons right">arrow_drop_down</i>
@@ -63,24 +61,81 @@
         </ul>
 
 
-        <div id="test2" class="col s12">
+        <div id="sendbitcoin" class="col s12">
             <div class="container">
-                <br>
-                    <i>Coming soon...</i>
-                <br><br>
+                      <div class="row">
+                        <h4 class="right">Balance: {{balance|number_format(8, '.', ',')}}฿</h4>
+
+                            <div class="input-field col s12">
+                            <i class="material-icons prefix">account_balance_wallet</i>
+                            <input id="icon_prefix2" type="text" class="materialize-textarea">
+                            <label for="icon_prefix2">Receiving Bitcoin address</label>
+                            </div>
+                            <div class="input-field col s12">
+                            <i class="fa fa-btc prefix" style="margin-left: 5px"></i>
+                            <input id="icon_prefix3" type="number" class="materialize-textarea" step="0.00000001">
+                            <label for="icon_prefix3">Amount of Bitcoin to send</label>
+                            <span class="helper-text" data-error="wrong" data-success="right">~ $0.00 (use max)</span>
+                            </div>
+                            <div class="input-field col s12">
+                            <i class="material-icons prefix">comment</i>
+                            <input id="icon_prefix4" type="text" class="materialize-textarea">
+                            <label for="icon_prefix4">Transaction comment</label>
+                            <span class="helper-text" data-error="wrong" data-success="right">Comments are optional and may not be visible in some wallet software. It's strongly disadvised to include personal information.</span>
+                            </div>
+
+
+                    </div>   
+                    <p>Estimated fee (60min): {{estimate.feerate}} btc/kb</p>
+                                                                     <br><br>
+                            <button class="btn waves-effect waves-light sendTransaction" type="submit" name="action">Confirm Transaction
+                                    <i class="material-icons right">send</i>
+                            </button>
+                                <div class="row">
+                                    <div class="col s12 m6 l6 xl6 right">
+                                    <div class="card-panel cyan lighten-1">
+                                        <i class="material-icons medium right">info_outline</i> <b><h6> Bitcoin Fees - Did you know?</b></h6><br>
+                                        <span class="white-text">The time a transaction takes to confirm depends on the conditions of the Bitcoin network and the fee sent.
+                                        The fee is automatically calculated for the fastest and cheapest transactions, and is deducted from the amount sent.
+                                        This means that the receiving part will receive slightly less than the amount sent.
+                                        </span>
+                                    </div>
+                                    </div>
+                                </div>
+
             </div>
+            <br><br>
         </div>
 
-        <div id="test3" class="col s12">
+        <div id="settings" class="col s12">
             <div class="container">
-            <br><br>
+                <h3>Bitcoin address settings</h3>
                 <form action="{{path('user_wallet_new_address')}}">
+                    <p>Choose a format for generating a new Bitcoin address. </p>
+                    <p>
+                    <label>
+                        <input class="with-gap" name="group1" type="radio" checked />
+                        <span>Bech32 (Recommended)</span>
+                    </label>
+                    </p>
+                    <p>
+                    <label>
+                        <input class="with-gap" name="group1" type="radio"  />
+                        <span>P2SH-Segwit</span>
+                    </label>
+                    </p>
+                    <p>
+                    <label>
+                        <input class="with-gap" name="group1" type="radio"  />
+                        <span>Legacy</span>
+                    </label>
+                    </p>
                     <button class="btn waves-effect waves-light left" type="submit" name="action" onclick="M.toast({html: 'Creating address...', displayLength: 10000, classes: 'rounded'})">Generate new address
                         <i class="material-icons right"></i>
                     </button>
                 </form>
-            <br><br>
             </div>
+                        <br><br>            <br><br>
         </div>
 
         <ul id="dropdown1" class="dropdown-content">
@@ -96,7 +151,7 @@
                 
         <div class="page-content">
             <div class="container">
-                <div id="test1" class="col s12">
+                <div id="wallet" class="col s12">
                     {% block body %}
 
                     {% endblock %}

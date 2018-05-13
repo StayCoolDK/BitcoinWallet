@@ -2,21 +2,22 @@
           <div class="container">
             <div class="row">
               <div class="col l6 s12">
-                <h5 class="white-text">Quick Links</h5>
-                <p class="grey-text text-lighten-4">Registration</p>
-                <p class="grey-text text-lighten-4">FAQ</p>
-                <p class="grey-text text-lighten-4">Github</p>
-                <p class="grey-text text-lighten-4">Privacy Policy</p>
-                <p class="grey-text text-lighten-4">Terms & Conditions</p>
+                <h5 class="white-text">Last 5 Transactions</h5>
+          {% for transaction in transactions %}
+            {% if (transaction.category == "receive" or transaction.category == "send") %}
+                <a href="https://blockchain.info/tx/{{transaction.txid}}" target="_blank" rel="noopener" class="grey-text text-lighten-4">{{transaction.txid|length > 35 ? transaction.txid|slice(0, 35) ~ '...' : transaction.txid}}</a>
+            {% endif %}
+          {% endfor %}
+
               </div>
               <div class="col l4 offset-l2 s12">
                 <h5 class="white-text">Stats</h5>
                 <ul>
-                    <li><p class="grey-text text-lighten-4">{{info['subversion']}}</p></li>
-                    <li><p class="grey-text text-lighten-4">Node Connections: {{info['connections']}}</p></li>
-                    <li><p class="grey-text text-lighten-4">Blocks: {{blockchaininfo['blocks']}}</p></li>
-                    <li><p class="grey-text text-lighten-4">Difficulty: {{blockchaininfo['difficulty']|number_format(0, '.', ',')}}</p></li>
-                    <li><p class="grey-text text-lighten-4">Blockchain Sync: <span>{{(blockchaininfo['verificationprogress']*100)|number_format(6, '.', ',')}}%</span></p></li>
+                    <li><p class="grey-text text-lighten-4">{{info['subversion']}} <i class="material-icons left">verified_user</i></p></li>
+                    <li><p class="grey-text text-lighten-4">Blocks: {{blockchaininfo['blocks']}} <i class="material-icons left">storage</i></p></li>
+                    <li><p class="grey-text text-lighten-4">Difficulty: {{blockchaininfo['difficulty']|number_format(0, '.', ',')}} <i class="material-icons left">terrain</i></p></li>
+                    <li><p class="grey-text text-lighten-4">Blockchain Sync: <span>{{(blockchaininfo['verificationprogress']*100)|number_format(6, '.', ',')}}% <i class="material-icons left">network_check</i></span></p></li>
+                    <li><p class="grey-text text-lighten-4">Blockchain Transactions: {{walletinfo.txcount}} <i class="material-icons left">swap_horiz</i></p></li>
                 </ul>
               </div>
             </div>
@@ -24,7 +25,7 @@
           <div class="footer-copyright">
             <div class="container">
             © 2018 Peter Dalby
-            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            <a class="grey-text text-lighten-4 right" href="#!">Github Source</a>
             </div>
           </div>
         </footer>

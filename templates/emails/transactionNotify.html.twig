@@ -1,0 +1,19 @@
+<h3>You did it! </h3>
+
+Hello {{ account }} <br>
+
+You have successfully {{ category }} a transaction! <br><br>
+
+The amount is {{ amount }} <br>
+The transaction id is: <a href="https://blockchain.info/tx/{{txid}}">{{ txid }}</a> <br>
+It currently has {{ confirmations }} confirmations. <br>
+
+<br>
+The amount has been received at {{ address }} and should show up in your account within long.
+
+<br><br>
+
+<a href="{{ url('user_wallet') }}">Go to My Wallet</a>.
+
+{# Makes an absolute URL to the /images/logo.png file #}
+<img src="{{ absolute_url(asset('images/favicon.png')) }}">
