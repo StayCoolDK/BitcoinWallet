@@ -15,7 +15,7 @@ class WalletNotifyController Extends Controller
      */
     public function index($txid, \Swift_Mailer $mailer){
 
-        $bitcoind = new BitcoinClient('http://StayCool:bandit1993@localhost:8332/');
+        $bitcoind = new BitcoinClient('http://username:password@localhost:8332/');
 
         $aTransaction = $bitcoind->GetTransaction($txid)->get();
 

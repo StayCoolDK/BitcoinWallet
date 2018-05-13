@@ -23,7 +23,7 @@ class UserController extends Controller
     public function getBitcoinData()
     {
         //Replace username:password to match your bitcoin config file
-        $bitcoind = new BitcoinClient('http://StayCool:bandit1993@localhost:8332/');
+        $bitcoind = new BitcoinClient('http://username:password@localhost:8332/');
 
         $aNetworkInfo = $bitcoind->getnetworkinfo();
         $aBlockchainInfo = $bitcoind->getblockchaininfo();
@@ -55,7 +55,7 @@ class UserController extends Controller
     public function userWallet()
     {
         //Replace username:password to match your bitcoin config file
-        $bitcoind = new BitcoinClient('http://StayCool:bandit1993@localhost:8332/');
+        $bitcoind = new BitcoinClient('http://username:password@localhost:8332/');
         $sAccount = $this->container->get('security.token_storage')->getToken()->getUser()->getEmail();
 
         $aAddresses = $bitcoind->GetAddressesByAccount($sAccount)->get();
@@ -85,7 +85,7 @@ class UserController extends Controller
     public function newAddress()
     {
         //Replace username:password to match your bitcoin config file
-        $bitcoind = new BitcoinClient('http://StayCool:bandit1993@localhost:8332/');
+        $bitcoind = new BitcoinClient('http://username:password@localhost:8332/');
 
         $sAccount = $this->container->get('security.token_storage')->getToken()->getUser()->getEmail();
 
