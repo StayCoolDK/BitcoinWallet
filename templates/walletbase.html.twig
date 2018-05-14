@@ -27,12 +27,14 @@
             <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                    
                         <li>
                             <a class="dropdown-trigger" href="#!" data-covertrigger="false" data-beloworigin="false" data-target="dropdown2">{{ app.user.email }}
                             <i class="material-icons right">arrow_drop_down</i>
                             <i class="material-icons left">account_box</i></a>
                         </li>
                         <li><a class="waves-effect waves-light btn blue darken-3 btn" href="/logout"><i class="material-icons left">exit_to_app</i>Logout</a></li>
+                        
                     {% else %}
                             <li><a class="waves-effect waves-light btn blue darken-3 btn" href="{{path('user_login')}}"><i class="material-icons left">security</i>Login</a></li>
                     {% endif %}
@@ -49,12 +51,14 @@
 
         <ul class="sidenav" id="mobile-demo">
                     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                    
                         <li><a class="waves-effect waves-light btn blue darken-3 btn" href="/logout"><i class="material-icons left">exit_to_app</i>Logout</a></li>
                         <li>
                             <a class="dropdown-trigger" href="#!" data-covertrigger="false" data-beloworigin="false" data-target="dropdown1">{{ app.user.email }}
                             <i class="material-icons right">arrow_drop_down</i>
                             <i class="material-icons left">account_box</i></a>
                         </li>
+
                     {% else %}
                             <li><a class="waves-effect waves-light btn blue darken-3 btn" href="{{path('user_login')}}"><i class="material-icons left">security</i>Login</a></li>
                     {% endif %}
@@ -64,39 +68,33 @@
         <div id="sendbitcoin" class="col s12">
             <div class="container">
                       <div class="row">
-                        <h4 class="right">Balance: {{balance|number_format(8, '.', ',')}}฿</h4>
-
-                            <div class="input-field col s12">
+                      
+                                    <div><h5 class=" btnmargin right"><i class="material-icons">account_balance_wallet</i> <span class="totalBalance"><b>{{balance|number_format(8, '.', ',')}}</span>฿ - {{usdbalance|number_format(2, '.', ',')}}$</b></h5></div><br><br>
+<form class="btcTransaction">
+                        <div class="input-field col s12">
                             <i class="material-icons prefix">account_balance_wallet</i>
-                            <input id="icon_prefix2" type="text" class="materialize-textarea">
+                            <input id="icon_prefix2" type="text" class="materialize-textarea btcAddress" required>
                             <label for="icon_prefix2">Receiving Bitcoin address</label>
-                            </div>
-                            <div class="input-field col s12">
-                            <i class="fa fa-btc prefix" style="margin-left: 5px"></i>
-                            <input id="icon_prefix3" type="number" class="materialize-textarea" step="0.00000001">
-                            <label for="icon_prefix3">Amount of Bitcoin to send</label>
-                            <span class="helper-text" data-error="wrong" data-success="right">~ $0.00 (use max)</span>
-                            </div>
-                            <div class="input-field col s12">
-                            <i class="material-icons prefix">comment</i>
-                            <input id="icon_prefix4" type="text" class="materialize-textarea">
-                            <label for="icon_prefix4">Transaction comment</label>
-                            <span class="helper-text" data-error="wrong" data-success="right">Comments are optional and may not be visible in some wallet software. It's strongly disadvised to include personal information.</span>
-                            </div>
+                        </div>
+                        <div class="input-field col s12">
+                            <i class="fa fa-btc prefix" class="btcIcon" style="margin-left: 5px"></i>
+                            <input id="icon_prefix3" type="number" class="materialize-textarea btcAmount" step="0.00000001" min="0.00000000000" required>
+                            <label for="icon_prefix3" id="btcLabel">Amount of Bitcoin to send</label>
+                            <span class="helper-text" data-error="wrong" data-success="right"> <span class="usdValue">0.00</span>$ <a class="useMax" href="#">(use max)</a></span>
+                        </div>
 
-
-                    </div>   
-                    <p>Estimated fee (60min): {{estimate.feerate}} btc/kb</p>
-                                                                     <br><br>
-                            <button class="btn waves-effect waves-light sendTransaction" type="submit" name="action">Confirm Transaction
-                                    <i class="material-icons right">send</i>
+                            <button class="btn waves-effect waves-light sendTransaction btnMarginTop" name="action">Verify Transaction
+                                    <i class="material-icons left">verified_user</i>
                             </button>
+</form>
+                                        <p class="tooltipped" data-position="top" data-tooltip="The fee amount is unknown before the transaction has been sent, as the fee depends on the output size of the transaction in kilobytes.">Estimated fee: {{estimate.feerate}} btc/kb</p>
+                    </div>   
                                 <div class="row">
                                     <div class="col s12 m6 l6 xl6 right">
                                     <div class="card-panel cyan lighten-1">
                                         <i class="material-icons medium right">info_outline</i> <b><h6> Bitcoin Fees - Did you know?</b></h6><br>
                                         <span class="white-text">The time a transaction takes to confirm depends on the conditions of the Bitcoin network and the fee sent.
-                                        The fee is automatically calculated for the fastest and cheapest transactions, and is deducted from the amount sent.
+                                        The fee is unknown until the transaction is sent and is automatically deducted from the amount sent.
                                         This means that the receiving part will receive slightly less than the amount sent.
                                         </span>
                                     </div>
@@ -131,7 +129,7 @@
                     </label>
                     </p>
                     <button class="btn waves-effect waves-light left" type="submit" name="action" onclick="M.toast({html: 'Creating address...', displayLength: 10000, classes: 'rounded'})">Generate new address
-                        <i class="material-icons right"></i>
+                        <i class="material-icons left">account_balance_wallet</i>
                     </button>
                 </form>
             </div>
@@ -171,6 +169,7 @@
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous" async></script>
           <script type="text/javascript" src="{{ asset('build/js/app.js') }}" async></script>
+          <script type="text/javascript" src="https://unpkg.com/sweetalert2@7.20.1/dist/sweetalert2.all.js" async></script>
         {% endblock %}
     </body>
 </html>

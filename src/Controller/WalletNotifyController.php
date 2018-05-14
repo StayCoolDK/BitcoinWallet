@@ -17,6 +17,11 @@ class WalletNotifyController Extends Controller
 
         $bitcoind = new BitcoinClient('http://username:password@localhost:8332/');
 
+        if (!$txid) {
+            throw $this->createNotFoundException(
+                'No TXID was passed: '.$txid
+            );
+        }
         $aTransaction = $bitcoind->GetTransaction($txid)->get();
 
         $sAmount = $aTransaction['amount'];
@@ -27,7 +32,7 @@ class WalletNotifyController Extends Controller
         $sCategory = $aTransaction['details'][0]['category'];
 
         $message = (new \Swift_Message($sCategory.' transaction'))
-            ->setFrom('send@example.com')
+            ->setFrom('hello@peterdalby.me')
             ->setTo($sAccount)
             ->setBody(
                 $this->renderView(
@@ -44,8 +49,8 @@ class WalletNotifyController Extends Controller
                 'text/html'
             )
         ;
-    //$mailer->send($message);
-    //return $this->redirectToRoute('user_wallet');
+    $mailer->send($message);
+    return $this->redirectToRoute('user_wallet');
     }
 
 }

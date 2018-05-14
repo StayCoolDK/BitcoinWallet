@@ -5,7 +5,7 @@
                 <h5 class="white-text">Last 5 Transactions</h5>
           {% for transaction in transactions %}
             {% if (transaction.category == "receive" or transaction.category == "send") %}
-                <a href="https://blockchain.info/tx/{{transaction.txid}}" target="_blank" rel="noopener" class="grey-text text-lighten-4">{{transaction.txid|length > 35 ? transaction.txid|slice(0, 35) ~ '...' : transaction.txid}}</a>
+                <a href="https://live.blockcypher.com/btc/tx/{{transaction.txid}}" target="_blank" rel="noopener" class="grey-text text-lighten-4">{{transaction.txid|length > 35 ? transaction.txid|slice(0, 35) ~ '...' : transaction.txid}}</a>
             {% endif %}
           {% endfor %}
 
@@ -25,7 +25,7 @@
           <div class="footer-copyright">
             <div class="container">
             © 2018 Peter Dalby
-            <a class="grey-text text-lighten-4 right" href="#!">Github Source</a>
+            <a class="grey-text text-lighten-4 right" href="#!">1 BTC = <span class="btcrate">{{rate}}</span>$</a>
             </div>
           </div>
         </footer>
