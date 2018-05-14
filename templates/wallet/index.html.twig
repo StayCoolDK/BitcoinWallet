@@ -65,11 +65,18 @@
   {% for address in addresses %}
     <ul class="collection">
       <li class="collection-item">
-        <a class="waves-effect waves-light btn right"><i class="material-icons left">content_copy</i>Copy</a>
-        <div class="input-field col s12">
+
+      <div class="row">
+                <img src="{{ qr_code_data_uri(address, { writer: 'png', size: 125 }) }}" class="left"/>
+        <div class="input-field col s7 m9 xl10" id="fieldSibling">
+        
           <i class="material-icons prefix">account_balance_wallet</i>
           <input id="copyInput" type="text" readonly spellcheck="false" value="{{address}}">
-          <label for="copyInput">Bitcoin Address</label>                   
+          <label for="copyInput">Bitcoin Address</label>        
+                         
+        </div>
+                     <a class="waves-effect waves-light btn right" onclick="M.toast({html: 'Copied {{address}} to clipboard!', displayLength: '2000'})" id="copyInputbtn"><i class="material-icons left">content_copy</i>Copy Address</a>
+
         </div>
       </li>
     </ul>

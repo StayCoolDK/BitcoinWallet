@@ -60,16 +60,16 @@ class UserController extends Controller
      */
     public function userWallet()
     {
+        
         //Replace username:password to match your bitcoin config file
         $bitcoind = new BitcoinClient('http://username:password@localhost:8332/');
         $sAccount = $this->container->get('security.token_storage')->getToken()->getUser()->getEmail();
 
         $aAddresses = $bitcoind->GetAddressesByAccount($sAccount)->get();
-        //Total unconfirmed account balance
         $dUnconfirmedBalance = $bitcoind->GetBalance($sAccount, 0)->get();
-        //Total confirmed account balance
         $dConfirmedBalance = $bitcoind->GetBalance($sAccount, 6)->get();
         $aTransactions = $bitcoind->ListTransactions($sAccount, 99999)->get();
+        
         //Estimate fee for transaction being included within the next 6 blocks ~ 60 minutes
         $sFeeEstimate = $bitcoind->EstimateSmartFee(6)->get();
 
