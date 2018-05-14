@@ -30,6 +30,11 @@ class UserController extends Controller
         $aMemPoolInfo = $bitcoind->getMemPoolInfo();
         $aTransactions = $bitcoind->ListTransactions('*', 50)->get();
         $aWalletInfo = $bitcoind->getwalletinfo()->get();
+
+        //Grab Bitcoin price in USD from coinmarketcap, to show the user a balance not in Bitcoin.
+        $sCMCUrl = "https://api.coinmarketcap.com/v2/ticker/1/";
+        $aData = json_decode(file_get_contents($sCMCUrl), true);
+        $dRate = $aData['data']['quotes']['USD']['price'];
            
         return $this->render(
             'footer.html.twig',
@@ -38,6 +43,7 @@ class UserController extends Controller
                     'blockchaininfo' => $aBlockchainInfo,
                     'transactions' => $aTransactions,
                     'walletinfo' => $aWalletInfo,
+                    'rate' => $dRate,
                 ]
         );
     }
@@ -60,22 +66,32 @@ class UserController extends Controller
 
         $aAddresses = $bitcoind->GetAddressesByAccount($sAccount)->get();
         //Total unconfirmed account balance
-        $sUnconfirmedBalance = $bitcoind->GetBalance($sAccount, 0)->get();
+        $dUnconfirmedBalance = $bitcoind->GetBalance($sAccount, 0)->get();
         //Total confirmed account balance
-        $sConfirmedBalance = $bitcoind->GetBalance($sAccount, 1)->get();
-        $aTransactions = $bitcoind->ListTransactions($sAccount)->get();
-
+        $dConfirmedBalance = $bitcoind->GetBalance($sAccount, 6)->get();
+        $aTransactions = $bitcoind->ListTransactions($sAccount, 99999)->get();
         //Estimate fee for transaction being included within the next 6 blocks ~ 60 minutes
         $sFeeEstimate = $bitcoind->EstimateSmartFee(6)->get();
+
+        //Grab Bitcoin price in USD from coinmarketcap, to show the user a balance not in Bitcoin.
+        $sCMCUrl = "https://api.coinmarketcap.com/v2/ticker/1/";
+        $aData = json_decode(file_get_contents($sCMCUrl), true);
+
+        $dRate = $aData['data']['quotes']['USD']['price'];
+
+        $dUSDBalance = $dRate * $dConfirmedBalance;
+        $dUnconfirmedUSDBalance = $dRate * $dUnconfirmedBalance;
 
         return $this->render(
             'wallet/index.html.twig', 
                 [
                     'addresses' => $aAddresses,
-                    'unbalance' => $sUnconfirmedBalance,
-                    'balance' => $sConfirmedBalance,
+                    'unbalance' => $dUnconfirmedBalance,
+                    'balance' => $dConfirmedBalance,
                     'transactions' => $aTransactions,
                     'estimate' => $sFeeEstimate,
+                    'usdbalance' => $dUSDBalance,
+                    'unconfirmedusdbalance' => $dUnconfirmedUSDBalance,
                 ]);
     }
 
