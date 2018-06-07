@@ -43,7 +43,7 @@
             <div class="nav-content">
                 <ul class="tabs tabs-transparent">
                     <li class="tab"><a class="active" href="#wallet">My Wallet</a></li>
-                    <li class="tab"><a href="#sendbitcoin">Send Bitcoin</a></li>
+                    <li class="tab"><a href="#sendbitcoin">Send</a></li>
                     <li class="tab"><a href="#settings">Settings</a></li>
                 </ul>
             </div>
@@ -63,13 +63,12 @@
                             <li><a class="waves-effect waves-light btn blue darken-3 btn" href="{{path('user_login')}}"><i class="material-icons left">security</i>Login</a></li>
                     {% endif %}
         </ul>
-
-
-        <div id="sendbitcoin" class="col s12">
+        
+    <div id="sendbitcoin" class="col s12">
             <div class="container">
                       <div class="row">
                       
-                                    <div><h5 class=" btnmargin right"><i class="material-icons">account_balance_wallet</i> <span class="totalBalance"><b>{{balance|number_format(8, '.', ',')}}</span>฿ - {{usdbalance|number_format(2, '.', ',')}}$</b></h5></div><br><br>
+                                    <div><h5 class=" btnmargin right"><i class="material-icons">account_balance_wallet</i> <span class="totalBalance"><b>{{balance}}</span>฿ - {{usdbalance|number_format(2)}}$</b></h5></div><br><br>
 <form class="btcTransaction">
                         <div class="input-field col s12">
                             <i class="material-icons prefix">account_balance_wallet</i>
@@ -87,7 +86,7 @@
                                     <i class="material-icons left">verified_user</i>
                             </button>
 </form>
-                                        <p class="tooltipped" data-position="top" data-tooltip="The fee amount is unknown before the transaction has been sent, as the fee depends on the output size of the transaction in kilobytes.">Estimated fee: {{estimate.feerate}} btc/kb</p>
+
                     </div>   
                                 <div class="row">
                                     <div class="col s12 m6 l6 xl6 right">
@@ -105,9 +104,12 @@
             <br><br>
         </div>
 
+
         <div id="settings" class="col s12">
             <div class="container">
-                <h3>Bitcoin address settings</h3>
+                <div class="row">
+            <div class="col s12 m12 l6 xl6">
+                <h3>Generate Bitcoin Address</h3>
                 <form action="{{path('user_wallet_new_address')}}">
                     <p>Choose a format for generating a new Bitcoin address. </p>
                     <p>
@@ -128,13 +130,16 @@
                         <span>Legacy</span>
                     </label>
                     </p>
-                    <button class="btn waves-effect waves-light left" type="submit" name="action" onclick="M.toast({html: 'Creating address...', displayLength: 10000, classes: 'rounded'})">Generate new address
+                    <button class="btn waves-effect waves-light left tooltipped" data-position="bottom" data-tooltip="Generated Addresses Can't Be Deleted" type="submit" name="action" onclick="M.toast({html: 'Creating address...', displayLength: 5000, classes: 'rounded'})">Generate new address
                         <i class="material-icons left">account_balance_wallet</i>
                     </button>
+                    
                 </form>
-            </div>
-                        <br><br>            <br><br>
+                </div>            
         </div>
+    </div>
+    <br><br>
+</div>
 
         <ul id="dropdown1" class="dropdown-content">
         <li><a href="{{ path('user_wallet') }}"><i class="material-icons">account_balance_wallet</i>My Wallet</a></li>
