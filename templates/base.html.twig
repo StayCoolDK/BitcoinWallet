@@ -61,9 +61,9 @@
                         <i class="material-icons right">arrow_drop_down</i>
                         <i class="material-icons left">account_box</i></a>
                     </li>
-                    <li><a class="waves-effect waves-light blue darken-3  btn" href="/logout"><i class="material-icons left">exit_to_app</i>Logout</a></li>
+                    <li><a class="waves-effect waves-light blue darken-3 btn" href="/logout"><i class="material-icons left">exit_to_app</i>Logout</a></li>
                 {% else %}
-                    <li><a class="waves-effect waves-light blue darken-3  btn" href="{{path('fos_user_security_login')}}"><i class="material-icons left">security</i>Login</a></li>
+                    <li><a class="waves-effect waves-light blue darken-3 btn" href="{{path('fos_user_security_login')}}"><i class="material-icons left">security</i>Login</a></li>
                 {% endif %}
 
                 </ul>
@@ -91,6 +91,13 @@
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous" async></script>
           <script type="text/javascript" src="{{ asset('build/js/app.js') }}" async></script>
+
+        <script>
+
+
+
+            
+        </script>
         {% endblock %}
     </body>
 </html>

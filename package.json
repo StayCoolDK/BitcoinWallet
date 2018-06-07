@@ -8,6 +8,6 @@
   "dependencies": {
     "datatables": "^1.10.13",
     "jquery": "^3.3.1",
-    "sweetalert2": "^7.19.3"
+    "sweetalert2": "^7.20.1"
   }
 }
