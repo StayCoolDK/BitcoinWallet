@@ -11,9 +11,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class UserController extends Controller
 {
+
     public function index()
     {
         //Quick workaround not being able to link controllers in the vendor folder to routes.yml
@@ -47,6 +50,7 @@ class UserController extends Controller
                 ]
         );
     }
+
 
     /**
      * @Route("/wallet", name="user_wallet")
@@ -83,40 +87,60 @@ class UserController extends Controller
         $dUSDBalance = $dRate * $dConfirmedBalance;
 
         return $this->render(
-            'wallet/index.html.twig', 
+            'walletbase.html.twig', 
                 [
                     'addresses' => $aAddresses,
                     'balance' => $dConfirmedBalance,
                     'transactions' => $aTransactions,
                     'usdbalance' => $dUSDBalance,
+                    'rate' => $dRate,
                 ]);
     }
 
     /**
-     * @Route("/wallet/create/", name="user_wallet_new_address")
+     * @Route("/wallet/create/{format}", name="user_wallet_new_address")
      */
-    public function newAddress()
+    public function newAddress($format)
     {
         //Replace username:password to match your bitcoin config file
         $bitcoind = new BitcoinClient('http://username:password@localhost:8332/');
 
         $sAccount = $this->container->get('security.token_storage')->getToken()->getUser()->getEmail();
 
-        $sAddress = $bitcoind->GetNewAddress($sAccount, "p2sh-segwit");
-        
+        switch($format){
+            case 'bech32':
+                $sAddress = $bitcoind->GetNewAddress($sAccount, "bech32");
+                break;
+            case 'p2sh':
+                $sAddress = $bitcoind->GetNewAddress($sAccount, "p2sh-segwit");
+                break;
+            case 'legacy':
+                $sAddress = $bitcoind->GetNewAddress($sAccount, "legacy");
+                break;
+            default:
+                $sAddress = $bitcoind->GetNewAddress($sAccount, "p2sh-segwit");
+        }
+
         return $this->redirectToRoute('user_wallet');
     }
 
      /**
-     * @Route("/wallet/send/{toaddress}/{amount}", name="user_sendtransaction")
+     * @Route("/wallet/send/{toaddress}/{amount}/{token}", name="user_sendtransaction")
      */
     
-    public function sendTransation($toaddress, $amount){
+    public function sendTransation($toaddress, $amount, $token, Request $request){
 
         //Replace username:password to match your bitcoin config file
         $bitcoind = new BitcoinClient('http://username:password@localhost:8332/');
 
         $fromaccount = $this->container->get('security.token_storage')->getToken()->getUser()->getEmail();
+
+        // 'send-bitcoin' is NOT the same value used in the template to generate the token
+        if (!$this->isCsrfTokenValid('send-bitcoin', $token)) {
+            return new Response(
+                'CSRF token does not match.'
+            );
+        }
 
         $validation = $bitcoind->ValidateAddress($toaddress)->get();
 
@@ -131,7 +155,7 @@ class UserController extends Controller
             //User found, lets get the balance.
             $accountBalance = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $fromaccount])->getBalance();
 
-            if($amount < 0)
+            if($amount <= 0)
             {
                 return new Response(
                     'Amount has to be positive.'
@@ -162,7 +186,6 @@ class UserController extends Controller
                 $transaction = $bitcoind->SendToAddress($toaddress, $amount, $transactioncomment, "", true); 
                 $txid = $transaction->get();
 
-                //Set Balance to the current balance minus the amount send. But only when TXID is returned
                 $finalBalance = $accountBalance - $amount;
                 $oUser->setBalance($finalBalance);
                 $entityManager->flush();

@@ -13,24 +13,18 @@
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
     {% endif %}
 
-
-        <div class="row">
             <div class="input-field col s12">
                 <i class="material-icons prefix">account_circle</i>
                 <input type="email" id="username" name="_username" value="{{ last_username }}" required="required" autocomplete="username" />
                 <label for="username">{{ 'form.email'|trans }}</label>
             </div>
-        </div>
 
-        <div class="row">
             <div class="input-field col s12">
                 <i class="material-icons prefix">lock</i>    
                 <input type="password" id="password" name="_password" required="required" autocomplete="current-password" />
                 <label for="password">{{ 'security.login.password'|trans }}</label>
             </div>
-        </div>
 
-        <div class="row">
             <div class="input-field col s12">
                 <p>
                     <label>
@@ -39,20 +33,17 @@
                     </label>
                 </p>
             </div>
-        </div>
-        <div class="row">
+
             <div class="input-field col s12">
-                <button class="btn waves-effect waves-light" type="submit" id="_submit" name="_submit">{{ 'security.login.submit'|trans }}
-                    <i class="material-icons right">send</i>
-                </button> 
-                
+                <button class="btn waves-effect waves-light blue" type="submit" id="_submit" name="_submit"> Login
+                    <i class="material-icons left">security</i>
+                </button>        
+                <a href="{{path('fos_user_resetting_request')}}" class="btn waves-effect waves-light orange darken-2">Reset password
+                    <i class="material-icons left">lock_open</i>
+                </a>
             </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s12">
-                <a href="{{path('fos_user_resetting_request')}}">Reset password</a>
-            </div>
-        </div>
 </form>
 
 </div></div>
+
+<br><br>
