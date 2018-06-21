@@ -5,7 +5,7 @@
                 <h5 class="white-text">Wallet Transactions</h5>
           {% for transaction in transactions %}
             {% if (transaction.category == "receive" or transaction.category == "send") %}
-                <a href="https://live.blockcypher.com/btc/tx/{{transaction.txid}}" target="_blank" rel="noopener" class="grey-text text-lighten-4">{{transaction.txid|length > 35 ? transaction.txid|slice(0, 35) ~ '...' : transaction.txid}}</a>
+                <a href="https://live.blockcypher.com/btc/tx/{{transaction.txid}}" target="_blank" rel="noopener" class="grey-text text-lighten-4">{{transaction.txid|length > 40 ? transaction.txid|slice(0, 40) ~ '...' : transaction.txid}}</a>
             {% endif %}
           {% endfor %}
 
