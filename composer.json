@@ -5,6 +5,7 @@
         "php": "^7.1.3",
         "ext-iconv": "*",
         "denpa/php-bitcoinrpc": "^2.0",
+        "easycorp/easyadmin-bundle": "^1.17",
         "endroid/qr-code-bundle": "^3.2",
         "friendsofsymfony/user-bundle": "~2.0",
         "sensio/framework-extra-bundle": "^5.1",

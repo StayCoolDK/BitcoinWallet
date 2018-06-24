@@ -22,7 +22,30 @@ class UserController extends Controller
         //Quick workaround not being able to link controllers in the vendor folder to routes.yml
         return $this->redirectToRoute('fos_user_registration_register');
     }
-
+    /**
+     * @Route("/wallet/feedback/{message}/{rating}", name="user_feedback")
+     */
+    public function sendFeedback($message, $rating, \Swift_Mailer $mailer)
+    {
+        $message = (new \Swift_Message('User Feedback'))
+        ->setFrom('hello@peterdalby.me')
+        ->setTo('hello@peterdalby.me')
+        ->setBody(
+            $this->renderView(
+                'emails/feedback.html.twig',
+                [
+                    'message' => $message,
+                    'rating' => $rating,
+                ]
+            ),
+            'text/html'
+        );
+        $mailer->send($message); 
+        //Also add to a table of feedback?
+        return new Response (
+            'success'
+        );
+    }
     public function getBitcoinData()
     {
         //Replace username:password to match your bitcoin config file
@@ -30,6 +53,7 @@ class UserController extends Controller
 
         $aNetworkInfo = $bitcoind->getnetworkinfo();
         $aBlockchainInfo = $bitcoind->getblockchaininfo();
+        $aTXCount = $bitcoind->getchaintxstats();
         $aMemPoolInfo = $bitcoind->getMemPoolInfo();
         $aTransactions = $bitcoind->ListTransactions('*', 50000)->get();
         $aWalletInfo = $bitcoind->getwalletinfo()->get();
@@ -47,6 +71,7 @@ class UserController extends Controller
                     'transactions' => $aTransactions,
                     'walletinfo' => $aWalletInfo,
                     'rate' => $dRate,
+                    'txcount' => $aTXCount['txcount'],
                 ]
         );
     }
@@ -57,7 +82,6 @@ class UserController extends Controller
      */
     public function userWallet()
     {
-
         //Replace username:password to match your bitcoin config file
         $bitcoind = new BitcoinClient('http://username:password@localhost:8332/');
         $sAccount = $this->container->get('security.token_storage')->getToken()->getUser()->getEmail();
