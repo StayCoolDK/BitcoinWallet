@@ -2,9 +2,9 @@
           <div class="container">
             <div class="row">
               <div class="col l6 s12">
-                <h5 class="white-text">Wallet Transactions</h5>
+                <h5 class="white-text">Outgoing Wallet Transactions</h5>
           {% for transaction in transactions %}
-            {% if (transaction.category == "receive" or transaction.category == "send") %}
+            {% if (transaction.category == "send" or transaction.category == "receive") %}
                 <a href="https://live.blockcypher.com/btc/tx/{{transaction.txid}}" target="_blank" rel="noopener" class="grey-text text-lighten-4">{{transaction.txid|length > 40 ? transaction.txid|slice(0, 40) ~ '...' : transaction.txid}}</a>
             {% endif %}
           {% endfor %}
@@ -16,7 +16,7 @@
                     <li><p class="grey-text text-lighten-4">{{info['subversion']}} <i class="material-icons left">verified_user</i></p></li>
                     <li><p class="grey-text text-lighten-4">Blocks: {{blockchaininfo['blocks']}} <i class="material-icons left">storage</i></p></li>
                     <li><p class="grey-text text-lighten-4">Difficulty: {{blockchaininfo['difficulty']|number_format(0, '.', ',')}} <i class="material-icons left">terrain</i></p></li>
-                    <li><p class="grey-text text-lighten-4">Blockchain Sync: <span>{{(blockchaininfo['verificationprogress']*100)|number_format(6, '.', ',')}}% <i class="material-icons left">network_check</i></span></p></li>
+                    <li><p class="grey-text text-lighten-4">Blockchain Transactions: <span>{{txcount|number_format(0, '.', ',')}} <i class="material-icons left">show_chart</i></span></p></li>
                     <li><p class="grey-text text-lighten-4">Wallet Transactions: {{walletinfo.txcount}} <i class="material-icons left">compare_arrows</i></p></li>
                 </ul>
               </div>
@@ -24,7 +24,8 @@
           </div>
           <div class="footer-copyright">
             <div class="container">
-            © 2018 Peter Dalby
+            <i class="material-icons" style="color: red">favorite</i>
+            <span style="color: white">1JybxoHDX3bQxYQB6tpm82JmQuVF52Tkb</span>
             <a class="grey-text text-lighten-4 right" href="https://coinmarketcap.com/currencies/bitcoin" target="_blank" rel="noopener"> 1 BTC = <span class="btcrate">{{rate}}</span>$</a>
             </div>
           </div>

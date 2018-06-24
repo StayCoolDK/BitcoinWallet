@@ -16,16 +16,60 @@
     </head>
     <body>
 
+ <!-- Modal Structure -->
+  <div id="feedback" class="modal">
+
+    <div class="modal-content">
+      <h4>Send Feedback</h4>
+        <div class="row">
+            <form class="col s12 sendfeedback">
+            <div class="row">
+                <div class="input-field col s12 l10">
+                <i class="material-icons prefix">message</i>
+                <textarea id="inputfeedback" data-length="500" class="materialize-textarea" required></textarea>
+                <label for="inputfeedback">Write your feedback here :-)</label>
+                
+                </div>
+                    <div class="input-field col s12 m12 l10">         
+                        <p class="range-field">
+
+                            <input type="range" id="rating" min="0" max="5" step="0.5"/>
+                            <i class="material-icons">star_half</i>   
+                            <label for"rating">Rate our service from 1 to 5</label>
+                        </p>
+                    </div>
+
+                <div class="input-field col s12">
+                  <button class="btn waves-effect waves-light green" type="submit" name="action">Send Feedback
+                    <i class="material-icons left">favorite</i>
+                  </button>
+                  <a class="btn modal-close">Cancel<i class="material-icons left">cancel</i></a>
+                </div>
+            </div>
+            </form>
+
+        </div>
+    </div>
+  </div>
+
         <ul id="dropdown1" class="dropdown-content">
         <li><a href="{{ path('user_wallet') }}"><i class="material-icons">account_balance_wallet</i>My Wallet</a></li>
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+        <li><a href="/admin" target="_blank" rel="noopener"><i class="material-icons">dashboard</i>Admin Dashboard</a></li>
+        {% endif %}
         <li><a href="{{ path('fos_user_profile_show') }}"><i class="material-icons">build</i>Profile Settings</a></li>
+        <li><a href="#feedback" data-target="feedback" class="modal-trigger"><i class="material-icons">favorite</i>Send Feedback</a></li>
         </ul>
 
 
         <ul id="dropdown2" class="dropdown-content">
 
         <li><a href="{{ path('user_wallet') }}"><i class="material-icons">account_balance_wallet</i>My Wallet</a></li>
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+        <li><a href="/admin" target="_blank" rel="noopener"><i class="material-icons">dashboard</i>Admin Dashboard</a></li>
+        {% endif %}
         <li><a href="{{ path('fos_user_profile_show') }}"><i class="material-icons">build</i>Profile Settings</a></li>
+        <li><a href="#feedback" data-target="feedback" class="modal-trigger"><i class="material-icons">favorite</i>Send Feedback</a></li>
         </ul>
 
 
@@ -56,7 +100,7 @@
                 <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
 
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                     <li><a class="dropdown-trigger" href="#!" belowOrigin="true" data-target="dropdown2">{{ app.user.email }}
                         <i class="material-icons right">arrow_drop_down</i>
                         <i class="material-icons left">account_box</i></a>

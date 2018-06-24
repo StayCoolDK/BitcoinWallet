@@ -3,18 +3,18 @@
   <div class="row">
     <div class="col s12 m12 l5 xl5">
 
-    <h4>Create a <b><i class="fa fa-btc"></i>itcoin</b> wallet - it's free!</h4>
+    <h4>Create a <b><i class="fa fa-btc"></i>itcoin</b> wallet, it's free!</h4>
     {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
         {{ form_widget(form) }}
     {{ form_end(form) }}
 
     </div>
     <div class="col s12 m12 l6 offset-l1 xl6 offset-xl1">
-      <ul class="collapsible">
+      <ul class="collapsible popout expandable">
         <li class="active">
           <div class="collapsible-header"><i class="fa fa-btc"></i>What is Bitcoin?</div>
           <div class="collapsible-body"><span>Bitcoin is a peer-to-peer electronic cash system created by Satoshi Nakamoto in 2008.
-          Nobody owns or controls Bitcoin or the underlying blockchain, much like no one controls the technology behind email.
+          Nobody owns or controls Bitcoin or the underlying blockchain, much like no one controls the technology behind email.</span>
  <br><br><div class="video-container">
 
               <div class="youtube" data-embed="Gc2en3nHxA4?rel=0&showinfo=0&autoplay=1&iv_load_policy=3&cc_load_policy=1&cc_lang_pref={{app.request.locale}}">
@@ -24,6 +24,15 @@
             </div>
           </div>
         </li>
+            <li>
+              <div class="collapsible-header"><i class="material-icons">school</i>Where can i learn more?</div>
+              <div class="collapsible-body">
+              <p><a href="https://bitcoin.org/en/bitcoin-for-individuals" target="_blank" rel="noopener">https://bitcoin.org/en/bitcoin-for-individuals</a></p>
+              <p><a href="https://bitcoin.org/en/resources" target="_blank" rel="noopener">https://bitcoin.org/en/resources</a></p>
+              <p><a href="https://lopp.net/bitcoin.html" target="_blank" rel="noopener">https://lopp.net/bitcoin.html</a></p>
+              <p><a href="https://bitcoin.org/bitcoin.pdf" target="_blank" rel="noopener">https://bitcoin.org/bitcoin.pdf</a></p>
+              </div>
+            </li>
       </ul>
     </div>
   </div>
@@ -33,27 +42,49 @@
           <div class="row">
             <div class="col s12 m4">
               <div class="center promo promo-example">
-                <i class="material-icons bigIcon" style="color: #03A9F4">compare_arrows</i>
-                <p><b>Fast transactions</b></p>
+                <i class="material-icons medium" style="color: #03A9F4">compare_arrows</i>
+                <h5><b>Fast transactions</b></h5>
                 <p class="light center">Bitcoins can be sent worldwide with an average confirmation time of 10 minutes for a block, containing thousands of transactions.</p>
               </div>
             </div>
             <div class="col s12 m4">
               <div class="center promo promo-example">
-                <i class="material-icons bigIcon" style="color: #4CAF50">vpn_key</i>
-                <p><b>Financial Security</b></p>
+                <i class="material-icons medium" style="color: #FFC107">security</i>
+                <h5><b>Financial Security</b></h5>
                 <p class="light center">Bitcoin enables trustless financial security using public-key cryptography. The blockchain handles all transactions and secures your privacy. </p>
               </div>
             </div>
             <div class="col s12 m4">
               <div class="center promo promo-example">
-                <i class="material-icons bigIcon" style="color: #FFC107">group</i>
-                <p><b>Peer-to-peer (P2P)</b></p>
+                <i class="material-icons medium" style="color: #4CAF50">public</i>
+                <h5><b>Decentralized (P2P)</b></h5>
                 <p class="light center">All transactions on the Bitcoin network are decentralized. There is no central authority to close, freeze or chargeback your Bitcoin wallet, it's strictly peer-to-peer.</p>
               </div>
             </div>
           </div>
-          
+                    <div class="row">
+            <div class="col s12 m4">
+              <div class="center promo promo-example">
+                <i class="material-icons medium" style="color: #ff9800">network_check</i>
+                <h5><b>24/7 Uptime</b></h5>
+                <p class="light center">Bitcoin's decentralized peer-to-peer nature means that the network can't be shut down. The Bitcoin network is guaranteed to be available 24 hours a week, 365 days a year.</p>
+              </div>
+            </div>
+            <div class="col s12 m4">
+              <div class="center promo promo-example">
+                <i class="material-icons medium" style="color: #f44336">visibility_off</i>
+                <h5><b>Financial Privacy</b></h5>
+                <p class="light center">With Bitcoin every participants transaction is private due to cryptography. This ensures that the intention and identity can't be linked to transactions. </p>
+              </div>
+            </div>
+            <div class="col s12 m4">
+              <div class="center promo promo-example">
+                <i class="material-icons medium" style="color: #3f51b5">important_devices</i>
+                <h5><b>Cross platform</b></h5>
+                <p class="light center">Bitcoin and our wallet supports all devices such as computers, tablets or smartphones. All major operating system and browsers are supported to ensure the best experience.</p>
+              </div>
+            </div>
+          </div>
 <br><br><br>
 
     <!-- Modal Structure -->

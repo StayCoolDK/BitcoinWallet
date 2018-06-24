@@ -6,8 +6,9 @@
     "webpack-notifier": "^1.6.0"
   },
   "dependencies": {
-    "datatables": "^1.10.13",
+    "datatables": "^1.10.18",
+    "hoek": "^5.0.3",
     "jquery": "^3.3.1",
-    "sweetalert2": "^7.20.1"
+    "sweetalert2": "^7.23.1"
   }
 }

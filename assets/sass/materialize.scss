@@ -133,7 +133,7 @@ body {
   }
 
   .bigIcon {
-      font-size: 60px;
+      font-size: 40px;
   }
   
   .youtube {
@@ -273,7 +273,12 @@ div.material-table {
     color: rgba(255, 255, 255, 1);
     font-size: 24px;
   }
-  
+ .hidetext {
+   display: none;
+ }
+ .tabs .tab a:focus, .tabs .tab a:focus.active {
+   background-color: rgba(255, 255, 255, 0);
+ }
   div.material-table .table-footer {
     height: 56px;
     padding-left: 24px;
