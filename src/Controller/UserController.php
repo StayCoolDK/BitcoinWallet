@@ -86,21 +86,22 @@ class UserController extends Controller
         $bitcoind = new BitcoinClient('http://username:password@localhost:8332/');
         $sAccount = $this->container->get('security.token_storage')->getToken()->getUser()->getEmail();
 
+        //GetAddressesByLabel if(v => v0.17)
         $aAddresses = $bitcoind->GetAddressesByAccount($sAccount)->get();
+        //Replace this with storing addresses in the user table
+
         $dConfirmedBalance = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $sAccount])->getBalance();
 
         //Received transactions (address associated with account)
-        $aTransactions = $bitcoind->ListTransactions($sAccount, 50000)->get();
+        $aTransactions = $bitcoind->ListTransactions($sAccount)->get();
 
         //All transactions, filter sent transactions by comment)
-        $listTransactions = $bitcoind->ListTransactions('*', 50000)->get();
+        $listTransactions = $bitcoind->ListTransactions('*')->get();
 
         //The username from where the transaction was sent is included as a comment, so we can add sent transactions to the users transactions.
         for($i = 0; $i < count($listTransactions); $i++){
-            if(array_key_exists('comment', $listTransactions[$i])){ //Sent transaction
-                if($listTransactions[$i]['comment'] == $sAccount && $listTransactions[$i]['category'] == "send"){
+            if(array_key_exists('comment', $listTransactions[$i]) && $listTransactions[$i]['comment'] == $sAccount && $listTransactions[$i]['category'] == "send"){ //Sent transaction
                     array_push($aTransactions, $listTransactions[$i]);
-                }
             }
         }
         
