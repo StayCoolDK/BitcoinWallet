@@ -50,6 +50,9 @@
             "ref": "c1431086fec31f17fbcfe6d6d7e92059458facc1"
         }
     },
+    "doctrine/event-manager": {
+        "version": "v1.0.0"
+    },
     "doctrine/inflector": {
         "version": "v1.3.0"
     },
@@ -64,6 +67,12 @@
     },
     "doctrine/orm": {
         "version": "v2.6.1"
+    },
+    "doctrine/persistence": {
+        "version": "v1.0.0"
+    },
+    "doctrine/reflection": {
+        "version": "v1.0.0"
     },
     "easycorp/easyadmin-bundle": {
         "version": "1.17",
@@ -95,12 +104,6 @@
     "friendsofsymfony/user-bundle": {
         "version": "v2.1.2"
     },
-    "gregwar/captcha": {
-        "version": "v1.1.6"
-    },
-    "gregwar/captcha-bundle": {
-        "version": "v2.0.4"
-    },
     "guzzlehttp/guzzle": {
         "version": "6.3.0"
     },
@@ -115,9 +118,6 @@
     },
     "khanamiryan/qrcode-detector-decoder": {
         "version": "1.0.2"
-    },
-    "lcobucci/jwt": {
-        "version": "3.2.2"
     },
     "myclabs/php-enum": {
         "version": "1.6.1"
@@ -152,9 +152,6 @@
     "psr/simple-cache": {
         "version": "1.0.1"
     },
-    "scheb/two-factor-bundle": {
-        "version": "v3.6.2"
-    },
     "sensio/framework-extra-bundle": {
         "version": "4.0",
         "recipe": {
@@ -172,9 +169,6 @@
             "version": "4.0",
             "ref": "e65a105bf4cd5b1b79012ba029954927f05922e8"
         }
-    },
-    "sonata-project/google-authenticator": {
-        "version": "1.1.0"
     },
     "swiftmailer/swiftmailer": {
         "version": "v6.0.2"
